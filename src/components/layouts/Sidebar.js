@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assetes/img/magnamedic(2).png'
+import logo from '../../assetes/img/magnamedic(2).png'
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
@@ -22,7 +22,7 @@ const Sidebar = () => {
 
                 <li>
                     <FontAwesomeIcon icon={solidIcons.faCalendar} className="iconSidebar"/>
-                    <a href="#"><span>Citas médicas</span></a>
+                    <a href="/medical-appointments"><span>Citas médicas</span></a>
                 </li>
                 <li>
                     <FontAwesomeIcon icon={solidIcons.faUsers} className="iconSidebar"/>
@@ -33,17 +33,21 @@ const Sidebar = () => {
 
                 <li>
                     <FontAwesomeIcon icon={solidIcons.faStethoscope} className="iconSidebar"/>
-                    <a href="#"><span>Médicos</span></a>
+                    <a href="/doctors"><span>Médicos</span></a>
                 </li>
                 <li>
                     <FontAwesomeIcon icon={solidIcons.faKitMedical} className="iconSidebar"/>
-                    <a href="#"><span>Especialidades médicas</span></a>
+                    <a href="/medical-specialities"><span>Especialidades médicas</span></a>
                 </li>
                 <hr/>
 
                 <li>
+                    <FontAwesomeIcon icon={solidIcons.faUsers} className="iconSidebar"/>
+                    <a href="/users"><span>Usuarios</span></a>
+                </li>
+                <li>
                     <FontAwesomeIcon icon={solidIcons.faChartArea} className="iconSidebar"/>
-                    <a href="#"><span>Reportes</span></a>
+                    <a href="/reports"><span>Reportes</span></a>
                 </li>
             </ul>
         </div>

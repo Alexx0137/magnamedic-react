@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, {useState, useEffect} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as solidIcons from '@fortawesome/free-solid-svg-icons';
+import {useParams, useNavigate, useLocation} from 'react-router-dom';
 
-const EditPatientForm = ({ patients, updatePatient }) => {
+const EditPatientForm = ({patients, updatePatient}) => {
     const navigate = useNavigate();
-    const { id } = useParams();
+    const location = useLocation();
+    const {id} = useParams();
     const [patient, setPatient] = useState({
         name: '',
         lastName: '',
@@ -21,15 +22,44 @@ const EditPatientForm = ({ patients, updatePatient }) => {
     });
 
     useEffect(() => {
-        const patientId = parseInt(id);
-        const foundPatient = patients.find(patient => patient.id === patientId);
-        if (foundPatient) {
-            setPatient(foundPatient);
+        if (location.state) {
+            const patient = location.state;
+            setPatient({
+                name: patient.name,
+                lastName: patient.last_name,
+                identificationTypeId: patient.identification_type_id,
+                identification: patient.identification,
+                genderId: patient.gender_id,
+                bloodTypeId: patient.blood_type_id,
+                city: patient.city,
+                address: patient.address,
+                telephone: patient.telephone,
+                email: patient.email,
+                dateOfBirth: patient.date_of_birth
+            });
+        } else {
+            const patientId = parseInt(id);
+            const foundPatient = patients.find(patient => patient.id === patientId);
+            if (foundPatient) {
+                setPatient({
+                    name: foundPatient.name,
+                    lastName: foundPatient.last_name,
+                    identificationTypeId: foundPatient.identification_type_id,
+                    identification: foundPatient.identification,
+                    genderId: foundPatient.gender_id,
+                    bloodTypeId: foundPatient.blood_type_id,
+                    city: foundPatient.city,
+                    address: foundPatient.address,
+                    telephone: foundPatient.telephone,
+                    email: foundPatient.email,
+                    dateOfBirth: foundPatient.date_of_birth
+                });
+            }
         }
-    }, [id, patients]);
+    }, [id, location.state, patients]);
 
     const handleChange = e => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setPatient(prevPatient => ({
             ...prevPatient,
             [name]: value
@@ -39,12 +69,12 @@ const EditPatientForm = ({ patients, updatePatient }) => {
     const handleSubmit = e => {
         e.preventDefault();
         updatePatient(patient.id, patient);
+        navigate('/patients');
     };
 
     const onCancel = () => {
         navigate('/patients');
     };
-
 
     return (
         <div className="container-fluid">
@@ -212,8 +242,7 @@ const EditPatientForm = ({ patients, updatePatient }) => {
                                     <FontAwesomeIcon icon={solidIcons.faArrowLeft}/> Cancelar
                                 </button>
 
-                                <button type="submit" onClick={handleSubmit}
-                                        className="btn btn-primary btn-sm mt-2 mx-1">
+                                <button type="submit" className="btn btn-primary btn-sm mt-2 mx-1">
                                     Guardar
                                 </button>
                             </div>

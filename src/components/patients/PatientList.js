@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, {useState} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 import {Link} from "react-router-dom";
+import Swal from "sweetalert2";
 
 const PatientList = () => {
     const [patients, setPatients] = useState([
@@ -37,6 +38,20 @@ const PatientList = () => {
         },
     ]);
 
+    const handleDelete = (id, name, last_name) => {
+        Swal.fire({
+            title: `¿Estás seguro de que deseas eliminar el paciente ${name} ${last_name}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cerrar sesión',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setPatients(patients.filter(patient => patient.id !== id));
+            }
+        });
+    };
+
     return (
         <div className="container-fluid">
             <div className="card shadow mb-4">
@@ -44,7 +59,7 @@ const PatientList = () => {
                     <div className="d-sm-flex align-items-center justify-content-between mb-2">
                         <h1 className="h3 mb-0 text-gray-800">Pacientes</h1>
                         <a href="/add-patient" className="btn btn-primary btn-sm btn-icon-split">
-                            <FontAwesomeIcon icon={solidIcons.faPlus} className="me-1" />
+                            <FontAwesomeIcon icon={solidIcons.faPlus} className="me-1"/>
                             Crear paciente
                         </a>
                     </div>
@@ -52,21 +67,21 @@ const PatientList = () => {
 
                 <div className="card-body">
                     <div className="search-container">
-                        <input type="text" className="search-input" placeholder="Buscar..." />
+                        <input type="text" className="search-input" placeholder="Buscar..."/>
                         <button className="search-button">Buscar</button>
                     </div>
                     <div className="table-responsive">
                         <table className="styled-table" id="patientsTable">
                             <thead>
                             <tr>
-                                <th style={{ width: "50px" }}>ID</th>
-                                <th style={{ width: "100px" }}>Documento</th>
-                                <th style={{ width: "200px" }}>Nombres</th>
-                                <th style={{ width: "150px" }}>Correo</th>
-                                <th style={{ width: "250px" }}>Dirección</th>
-                                <th style={{ width: "150px" }}>Teléfono</th>
-                                <th style={{ width: "150px" }}>Fecha Registro</th>
-                                <th style={{ width: "120px" }}>Acciones</th>
+                                <th style={{width: "50px"}}>ID</th>
+                                <th style={{width: "100px"}}>Documento</th>
+                                <th style={{width: "200px"}}>Nombres</th>
+                                <th style={{width: "150px"}}>Correo</th>
+                                <th style={{width: "250px"}}>Dirección</th>
+                                <th style={{width: "150px"}}>Teléfono</th>
+                                <th style={{width: "150px"}}>Fecha Registro</th>
+                                <th style={{width: "120px"}}>Acciones</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -79,11 +94,14 @@ const PatientList = () => {
                                     <td>{patient.address}</td>
                                     <td>{patient.telephone}</td>
                                     <td>{patient.created_at}</td>
-                                    <td className="d-flex justify-content-center">
-                                        <Link to={`/edit-patient/${patient.id}`} state={patient} className="btn btn-warning btn-sm me-1" title="Editar">
-                                            <FontAwesomeIcon icon={solidIcons.faEdit} />
+                                    <td>
+                                        <Link to={`/edit-patient/${patient.id}`}
+                                              state={patient} className="btn btn-warning btn-sm me-1"
+                                              title="Editar">
+                                            <FontAwesomeIcon icon={solidIcons.faEdit}/>
                                         </Link>
-                                        <button className="btn btn-danger btn-sm" title="Eliminar">
+                                        <button className="btn btn-danger btn-sm" title="Eliminar"
+                                                onClick={() => handleDelete(patient.id, patient.name, patient.last_name)}>
                                             <FontAwesomeIcon icon={solidIcons.faTrash}></FontAwesomeIcon>
                                         </button>
                                     </td>

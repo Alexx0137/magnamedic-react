@@ -179,7 +179,7 @@ const AddPatientForm = () => {
                         </div>
                         <div className="form-row">
                             <div className="col-md-6">
-                                <a href="/" className="btn btn-secondary btn-sm mt-2 mx-1">
+                                <a href="/patients" className="btn btn-secondary btn-sm mt-2 mx-1">
                                     <FontAwesomeIcon icon={solidIcons.faArrowLeft}></FontAwesomeIcon>
                                     Cancelar
                                 </a>
